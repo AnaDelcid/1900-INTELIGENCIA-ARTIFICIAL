@@ -1,0 +1,13 @@
+import pandas as pd 
+estudiantes=pd.read_csv('estudiantes.csv')
+estudiantes
+clases=pd.read_csv('clases.csv')
+clases
+notas=pd.read_json('notas.json')
+notas
+merged_estudiantesandnotes=pd.merge(left=estudiantes,right=notas, left_on='id', right_on='id_student')
+dataFrame=pd.merge(left=merged_estudiantesandnotes,right=clases, left_on='id_class', right_on='id')
+dataFrame[['id_student', 'first_name','last_name','id_class','class_name','nota']]
+#manipulaciones
+#1 contar todos los valores de diferentes columnas.
+dataFrame.count() 
