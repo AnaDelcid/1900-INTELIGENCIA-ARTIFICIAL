@@ -1,0 +1,35 @@
+import pandas as pd 
+
+estudiantes=pd.read_csv('estudiantes.csv')
+estudiantes
+
+clases=pd.read_csv('clases.csv')
+clases
+
+notas=pd.read_json('notas.json')
+notas
+
+merged_estudiantesandnotes=pd.merge(left=estudiantes,right=notas, left_on='id', right_on='id_student')
+
+dataFrame=pd.merge(left=merged_estudiantesandnotes,right=clases, left_on='id_class', right_on='id')
+dataFrame[['id_student', 'first_name','last_name','id_class','class_name','nota']]
+
+df=pd.DataFrame()
+df['id_student']= dataFrame.id_student
+df['first_name']=dataFrame.first_name
+df['last_name']=dataFrame.last_name
+df['id_class']=dataFrame.id_class
+df['class_name']=dataFrame.class_name
+df['nota']=dataFrame.nota
+df
+
+#manipulaciones
+#Mostrar todos los estudiantes que reprobaron ciencias sociales
+df[(df.nota<65)&(df.id_class==1)]
+
+#manipulaciones
+#contar los estudiantes que reprobaron artes
+print("Cantidad de estudiantes que reprobaron artes :", df[(df['nota']<65)&(df['id_class']==3)]['id_student'].count())
+
+#Cantidad de estudiantes por clase
+df.groupby(['id_class']).agg({'id_student':'count'})
